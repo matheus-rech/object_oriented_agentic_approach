@@ -1,0 +1,5 @@
+object_oriented_agentic_approach.code-workspace
+.env
+*.env
+.env.local
+.env.*.local
