@@ -331,3 +331,44 @@ Finally, **to recap**, the three steps to build an Agentic Application with Dyna
 
 We discussed the importance of isolating the code execution environment to ensure security and avoid running untrusted code on the host machine. With the use case of a CSV file, we demonstrated how to dynamically generate a tool (a Python script) to analyze the data and answer the user's question. We also showed how to execute the code in a Docker container and return the output to the user.
 """
+
+"""
+## Repository Structure
+
+The repository is designed to build a custom code interpreter for LLM agents with dynamically generated tool calling. Here is a general overview of the repository:
+
+* The repository contains a `README.md` file that provides an introduction and detailed explanation of the project, including the motivation, prerequisites, and steps to build the application.
+* The `object_oriented_agentic_approach` directory contains the main codebase for the project.
+* The `object_oriented_agentic_approach/resources/docker` directory contains the `object_oriented_agentic_approach/resources/docker/dockerfile` and `object_oriented_agentic_approach/resources/docker/requirements.txt` for setting up the isolated code execution environment using Docker.
+* The `object_oriented_agentic_approach/resources/object_oriented_agents/core_classes` directory contains core classes such as `object_oriented_agentic_approach/resources/object_oriented_agents/core_classes/agent_signature.py`, `object_oriented_agentic_approach/resources/object_oriented_agents/core_classes/base_agent.py`, `object_oriented_agentic_approach/resources/object_oriented_agents/core_classes/chat_messages.py`, `object_oriented_agentic_approach/resources/object_oriented_agents/core_classes/tool_interface.py`, and `object_oriented_agentic_approach/resources/object_oriented_agents/core_classes/tool_manager.py` that define the structure and behavior of agents and tools.
+* The `object_oriented_agentic_approach/resources/object_oriented_agents/services` directory contains service classes such as `object_oriented_agentic_approach/resources/object_oriented_agents/services/language_model_interface.py`, `object_oriented_agentic_approach/resources/object_oriented_agents/services/openai_factory.py`, and `object_oriented_agentic_approach/resources/object_oriented_agents/services/openai_language_model.py` for interacting with the OpenAI API.
+* The `object_oriented_agentic_approach/resources/object_oriented_agents/utils` directory contains utility classes such as `object_oriented_agentic_approach/resources/object_oriented_agents/utils/logger.py` and `object_oriented_agentic_approach/resources/object_oriented_agents/utils/openai_util.py` for logging and OpenAI API calls.
+* The `object_oriented_agentic_approach/resources/registry/agents` directory contains agent implementations such as `object_oriented_agentic_approach/resources/registry/agents/file_access_agent.py`, `object_oriented_agentic_approach/resources/registry/agents/python_code_exec_agent.py`, and `object_oriented_agentic_approach/resources/registry/agents/run_agentetic_app.py` for orchestrating the agents.
+* The `object_oriented_agentic_approach/resources/registry/tools` directory contains tool implementations such as `object_oriented_agentic_approach/resources/registry/tools/file_access_tool.py` and `object_oriented_agentic_approach/resources/registry/tools/python_code_interpreter_tool.py` for file access and code execution.
+* The `.devcontainer/devcontainer.json` file contains configuration for the development container.
+* The `.gitignore` file specifies files and directories to be ignored by Git.
+"""
+
+"""
+## Core Classes
+
+The core classes are designed to provide a consistent interface for the agents and tools. Here is an overview of the core classes and their purpose:
+
+* **BaseAgent**: An abstract base class that defines the high-level approach to handling user tasks and orchestrating calls to the OpenAI API. It provides common methods such as `task()`, `add_context()`, and `add_message()`, as well as a logger for debugging and a language model interface.
+* **ChatMessages**: A class to store the conversation history given the ChatCompletions API is stateless. It provides methods to add developer, user, and assistant messages, and to retrieve the messages.
+* **ToolManager**: A class to manage the tools that an agent can call. It allows registering multiple tools, retrieving their definitions, invoking the correct tool by name, and handling the entire tool call sequence.
+* **ToolInterface**: An abstract class for any 'tool' that an agent can call. It ensures that the tools will have a consistent interface by requiring the implementation of `get_definition()` and `run()` methods.
+* **AgentSignature**: A class that encapsulates the logic to produce an agent's 'signature' data, including the developer prompt, model name, list of tool definitions, and default reasoning effort (if any).
+"""
+
+"""
+## Agents and Tools
+
+The agents and tools are designed to accomplish specific tasks by leveraging the core classes. Here is an overview of the agents and tools and their purpose:
+
+* **FileAccessAgent**: An agent that can only use the 'safe_file_access' tool to read CSV files. It extends the BaseAgent class and registers the FileAccessTool to the tool manager.
+* **PythonExecAgent**: An agent specialized in executing Python code in a Docker container. It extends the BaseAgent class and registers the PythonExecTool to the tool manager.
+* **FileAccessTool**: A tool to read CSV files and copy them to a Docker container. It implements the ToolInterface class and provides the tool definition and run method.
+* **PythonExecTool**: A tool that executes Python code securely in a container. It implements the ToolInterface class and provides the tool definition and run method.
+"""
+
