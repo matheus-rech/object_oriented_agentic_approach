@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "build": "docker build -t python_sandbox:latest ./resources/docker 2>&1 | grep -E \"View build details|ERROR\" || echo \"Build failed.\"",
+    "launch": "docker run -d --name sandbox --network none --cap-drop all --pids-limit 64 --tmpfs /tmp:rw,size=64M python_sandbox:latest sleep infinity"
+  }
+}
